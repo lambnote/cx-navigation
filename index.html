@@ -15,363 +15,70 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Noto Serif SC', serif;
-            background: #06060e;
-            color: #e5e5e5;
-            min-height: 100vh;
-            min-height: 100dvh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* ---- 星空背景 ---- */
-        .stars {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .star {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.7);
-            animation: twinkle var(--dur) ease-in-out infinite;
-            animation-delay: var(--delay);
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* ---- 柔光装饰 ---- */
-        .glow {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.08;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .glow-1 {
-            width: 300px; height: 300px;
-            background: #c5a47e;
-            top: -80px; right: -60px;
-        }
-        .glow-2 {
-            width: 250px; height: 250px;
-            background: #7FA6CD;
-            bottom: 10%; left: -40px;
-        }
-
-        /* ---- 主容器 ---- */
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 460px;
-            margin: 0 auto;
-            padding: 60px 24px 40px;
-            min-height: 100vh;
-            min-height: 100dvh;
-        }
-
-        /* ---- 头部 ---- */
-        .header {
-            text-align: center;
-            margin-bottom: 42px;
-            animation: fadeDown 0.8s ease;
-        }
-        .header-icon {
-            font-size: 20px;
-            letter-spacing: 6px;
-            margin-bottom: 14px;
-            opacity: 0.5;
-        }
-        .header h1 {
-            font-size: 26px;
-            font-weight: 400;
-            letter-spacing: 8px;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #e5e5e5 0%, #a0a0a0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .header .subtitle {
-            font-size: 12px;
-            color: #5a5a5a;
-            letter-spacing: 3px;
-            font-weight: 300;
-        }
-        .divider {
-            width: 40px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #444, transparent);
-            margin: 18px auto 0;
-        }
-
-        @keyframes fadeDown {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ---- 角色列表 ---- */
-        .role-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .role-card {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 16px 18px;
-            cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-            text-decoration: none;
-            color: inherit;
-            animation: fadeUp 0.5s ease both;
-            position: relative;
-            overflow: hidden;
-        }
-        .role-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.35s;
-        }
-        .role-card:hover::before,
-        .role-card:active::before {
-            opacity: 1;
-        }
-        .role-card:active {
-            transform: scale(0.97);
-            background: rgba(255, 255, 255, 0.07);
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 每张卡片错开动画 */
-        .role-card:nth-child(1) { animation-delay: 0.05s; }
-        .role-card:nth-child(2) { animation-delay: 0.10s; }
-        .role-card:nth-child(3) { animation-delay: 0.15s; }
-        .role-card:nth-child(4) { animation-delay: 0.20s; }
-        .role-card:nth-child(5) { animation-delay: 0.25s; }
-        .role-card:nth-child(6) { animation-delay: 0.30s; }
-        .role-card:nth-child(7) { animation-delay: 0.35s; }
-        .role-card:nth-child(8) { animation-delay: 0.40s; }
-        .role-card:nth-child(9) { animation-delay: 0.45s; }
-        .role-card:nth-child(10) { animation-delay: 0.50s; }
-
-        /* ---- 头像 ---- */
-        .avatar {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            position: relative;
-        }
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* ---- 角色信息 ---- */
-        .role-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .role-name {
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            margin-bottom: 3px;
-        }
-        .role-desc {
-            font-size: 11px;
-            color: #666;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* ---- 在线状态 ---- */
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #4a9e6a;
-            flex-shrink: 0;
-            box-shadow: 0 0 6px rgba(74, 158, 106, 0.5);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        /* ---- 底部 ---- */
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-bottom: 20px;
-            animation: fadeUp 0.5s ease 0.6s both;
-        }
-        .footer p {
-            font-size: 11px;
-            color: #333;
-            letter-spacing: 2px;
-        }
-
-        /* ---- 编辑弹窗 ---- */
-        .edit-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(6px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.2s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .edit-dialog {
-            background: #1a1a24;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 18px;
-            padding: 24px;
-            width: 88%;
-            max-width: 340px;
-            animation: dialogIn 0.25s ease;
-        }
-        @keyframes dialogIn {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .edit-dialog h3 {
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            margin-bottom: 16px;
-            text-align: center;
-            color: #ccc;
-        }
-        .edit-dialog input {
-            width: 100%;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 12px 14px;
-            font-size: 14px;
-            color: #e5e5e5;
-            font-family: 'Noto Serif SC', serif;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .edit-dialog input:focus {
-            border-color: rgba(197, 164, 126, 0.4);
-        }
-        .edit-dialog input::placeholder {
-            color: #555;
-        }
-        .edit-btns {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-        }
-        .edit-btns button {
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            border: none;
-            font-size: 13px;
-            font-family: 'Noto Serif SC', serif;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-cancel {
-            background: rgba(255,255,255,0.06);
-            color: #888;
-        }
-        .btn-save {
-            background: rgba(197, 164, 126, 0.2);
-            color: #c5a47e;
-        }
-        .btn-save:active {
-            background: rgba(197, 164, 126, 0.35);
-        }
-        .btn-reset {
-            background: rgba(255, 80, 80, 0.1);
-            color: #ff6b6b;
-            font-size: 11px;
-            padding: 6px;
-            margin-top: 8px;
-            border-radius: 8px;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-            font-family: 'Noto Serif SC', serif;
-        }
-
-        /* ---- 头像上传 ---- */
-        .avatar-upload-hint {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.2s;
-            font-size: 14px;
-            color: rgba(255,255,255,0.8);
-            pointer-events: none;
-        }
-
-        /* ---- 安全区适配 ---- */
-        @supports (padding-bottom: env(safe-area-inset-bottom)) {
-            .container {
-                padding-bottom: calc(40px + env(safe-area-inset-bottom));
-            }
-        }
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        body{font-family:'Noto Serif SC',serif;background:#06060e;color:#e5e5e5;min-height:100vh;min-height:100dvh;overflow-x:hidden;position:relative}
+        .stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+        .star{position:absolute;border-radius:50%;background:rgba(255,255,255,.7);animation:twinkle var(--dur) ease-in-out infinite;animation-delay:var(--delay)}
+        @keyframes twinkle{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+        .glow{position:fixed;border-radius:50%;filter:blur(80px);opacity:.08;pointer-events:none;z-index:0}
+        .glow-1{width:300px;height:300px;background:#c5a47e;top:-80px;right:-60px}
+        .glow-2{width:250px;height:250px;background:#7FA6CD;bottom:10%;left:-40px}
+        .container{position:relative;z-index:1;max-width:460px;margin:0 auto;padding:60px 24px 40px;min-height:100vh;min-height:100dvh}
+        .header{text-align:center;margin-bottom:42px;animation:fadeDown .8s ease}
+        .header-icon{font-size:20px;letter-spacing:6px;margin-bottom:14px;opacity:.5}
+        .header h1{font-size:26px;font-weight:400;letter-spacing:8px;margin-bottom:10px;background:linear-gradient(135deg,#e5e5e5,#a0a0a0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .header .subtitle{font-size:12px;color:#5a5a5a;letter-spacing:3px;font-weight:300}
+        .divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,#444,transparent);margin:18px auto 0}
+        @keyframes fadeDown{from{opacity:0;transform:translateY(-15px)}to{opacity:1;transform:translateY(0)}}
+        .role-list{display:flex;flex-direction:column;gap:12px}
+        .role-card{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px 18px;cursor:pointer;transition:all .35s cubic-bezier(.25,.8,.25,1);text-decoration:none;color:inherit;animation:fadeUp .5s ease both;position:relative;overflow:hidden}
+        .role-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.03) 0%,transparent 60%);opacity:0;transition:opacity .35s}
+        .role-card:hover::before,.role-card:active::before{opacity:1}
+        .role-card:active{transform:scale(.97);background:rgba(255,255,255,.07)}
+        .role-card.empty{opacity:.35;border-style:dashed}
+        .role-card.empty:active{transform:none;background:rgba(255,255,255,.04)}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        .role-card:nth-child(1){animation-delay:.05s}.role-card:nth-child(2){animation-delay:.1s}.role-card:nth-child(3){animation-delay:.15s}.role-card:nth-child(4){animation-delay:.2s}.role-card:nth-child(5){animation-delay:.25s}.role-card:nth-child(6){animation-delay:.3s}.role-card:nth-child(7){animation-delay:.35s}.role-card:nth-child(8){animation-delay:.4s}.role-card:nth-child(9){animation-delay:.45s}.role-card:nth-child(10){animation-delay:.5s}
+        .avatar{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);overflow:hidden}
+        .avatar img{width:100%;height:100%;object-fit:cover}
+        .role-info{flex:1;min-width:0}
+        .role-name{font-size:15px;font-weight:500;letter-spacing:1px;margin-bottom:3px}
+        .role-desc{font-size:11px;color:#666;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .role-desc.ornament{letter-spacing:3px;opacity:.4}
+        .edit-btn{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:#555;font-size:12px;cursor:pointer;transition:all .25s;z-index:2}
+        .edit-btn:active{background:rgba(255,255,255,.1);color:#aaa}
+        .status-dot{width:8px;height:8px;border-radius:50%;background:#4a9e6a;flex-shrink:0;box-shadow:0 0 6px rgba(74,158,106,.5);animation:pulse 2s ease-in-out infinite}
+        .empty .status-dot{background:#333;box-shadow:none;animation:none}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+        .footer{text-align:center;margin-top:40px;padding-bottom:20px;animation:fadeUp .5s ease .6s both}
+        .footer p{font-size:11px;color:#333;letter-spacing:2px}
+        .cx-overlay{position:fixed;inset:0;background:rgba(6,6,14,.85);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:center;justify-content:center;animation:oIn .2s ease}
+        @keyframes oIn{from{opacity:0}to{opacity:1}}
+        .cx-dialog{background:linear-gradient(145deg,rgba(30,30,42,.95),rgba(20,20,30,.98));border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:28px 24px 22px;width:88%;max-width:320px;box-shadow:0 24px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);animation:dIn .3s cubic-bezier(.25,.8,.25,1)}
+        @keyframes dIn{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        .cx-dialog-title{font-size:14px;font-weight:400;letter-spacing:2px;text-align:center;color:#888;margin-bottom:20px}
+        .cx-menu-item{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);color:#ccc;font-size:13px;font-weight:400;letter-spacing:.5px;font-family:'Noto Serif SC',serif;cursor:pointer;transition:all .2s;text-align:left}
+        .cx-menu-item:active{background:rgba(255,255,255,.08)}
+        .cx-menu-item .item-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(197,164,126,.1);color:#c5a47e;font-size:12px;flex-shrink:0}
+        .cx-menu-item.danger{color:#665}
+        .cx-menu-item.danger .item-icon{background:rgba(255,255,255,.03);color:#665}
+        .cx-menu-item.cancel{justify-content:center;color:#555;background:none;border-color:transparent;margin-top:4px}
+        .cx-menu-gap{height:8px}
+        .cx-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:13px 16px;font-size:14px;color:#e5e5e5;font-family:'Noto Serif SC',serif;outline:none;transition:border-color .2s;letter-spacing:.5px}
+        .cx-input:focus{border-color:rgba(197,164,126,.3)}
+        .cx-input::placeholder{color:#444}
+        .cx-btn-row{display:flex;gap:10px;margin-top:18px}
+        .cx-btn{flex:1;padding:11px;border-radius:12px;border:none;font-size:13px;font-family:'Noto Serif SC',serif;cursor:pointer;transition:all .2s;letter-spacing:1px}
+        .cx-btn-cancel{background:rgba(255,255,255,.04);color:#666}
+        .cx-btn-save{background:rgba(197,164,126,.12);color:#c5a47e;border:1px solid rgba(197,164,126,.15)}
+        .cx-btn-save:active{background:rgba(197,164,126,.25)}
+        @supports(padding-bottom:env(safe-area-inset-bottom)){.container{padding-bottom:calc(40px + env(safe-area-inset-bottom))}}
     </style>
 </head>
 <body>
-
 <div class="stars" id="stars"></div>
 <div class="glow glow-1"></div>
 <div class="glow glow-2"></div>
-
 <div class="container">
     <div class="header">
         <div class="header-icon">✦ ✦ ✦</div>
@@ -379,268 +86,99 @@
         <div class="subtitle">Your very voice is in my heartbeat.</div>
         <div class="divider"></div>
     </div>
-
     <div class="role-list" id="roleList"></div>
-
-    <div class="footer">
-        <p>✦ You're all my pleasure, my hope and my song ✦</p>
-    </div>
+    <div class="footer"><p>✦ You're all my pleasure, my hope and my song ✦</p></div>
 </div>
-
-<!-- 隐藏的头像上传 input -->
-<input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
-
+<input type="file" id="avatarFileInput" accept="image/*" style="display:none">
 <script>
-// ============================================
-//   随机状态文案池
-// ============================================
-const RANDOM_DESCS = [
-    "在线",
-    "想你了",
-    "在等你",
-    "晚安",
-    "忙碌中",
-    "刚刚上线",
-    "在想你",
-    "今天也很想见你",
-    "方便聊聊吗",
-    "在发呆",
-    "刚醒",
-    "睡不着",
-    "有话想跟你说",
-    "等你很久了",
-    "今天天气真好",
-    "无聊中",
-    "嗯？你来了",
-    "一直在这里",
+const RANDOM_DESCS=["在线","想你了","在等你","晚安","忙碌中","刚刚上线","在想你","今天也很想见你","方便聊聊吗","在发呆","刚醒","睡不着","有话想跟你说","等你很久了","今天天气真好","无聊中","嗯？你来了","一直在这里"];
+const ROLES=[
+    {slot:0,link:"https://lambnote.github.io/cx-main/"},
+    {slot:1,link:"https://lambnote.github.io/cx-slot-2/"},
+    {slot:2,link:"https://lambnote.github.io/cx-slot-3/"},
+    {slot:3,link:"https://lambnote.github.io/cx-slot-4/"},
+    {slot:4,link:"https://lambnote.github.io/cx-slot-5/"},
+    {slot:5,link:"https://lambnote.github.io/cx-slot-6/"},
+    {slot:6,link:"https://lambnote.github.io/cx-slot-7/"},
+    {slot:7,link:"https://lambnote.github.io/cx-slot-8/"},
+    {slot:8,link:"https://lambnote.github.io/cx-slot-9/"},
+    {slot:9,link:"https://lambnote.github.io/cx-slot-10/"},
 ];
+const DEFAULT_NAME='等待链接…';
+const ORNAMENT='✦ ✧ ✦ ✧ ✦';
+const SP='cx_nav_';
+function gV(s,k){return localStorage.getItem(SP+k+'_'+s)}
+function sV(s,k,v){localStorage.setItem(SP+k+'_'+s,v)}
+function dV(s,k){localStorage.removeItem(SP+k+'_'+s)}
+function rD(){return RANDOM_DESCS[Math.floor(Math.random()*RANDOM_DESCS.length)]}
 
-// ============================================
-//   角色配置（10个坑位）
-// ============================================
-const ROLES = [
-    { slot: 0, link: "https://lambnote.github.io/cx-main/" },
-    { slot: 1, link: "https://lambnote.github.io/cx-slot-2/" },
-    { slot: 2, link: "https://lambnote.github.io/cx-slot-3/" },
-    { slot: 3, link: "https://lambnote.github.io/cx-slot-4/" },
-    { slot: 4, link: "https://lambnote.github.io/cx-slot-5/" },
-    { slot: 5, link: "https://lambnote.github.io/cx-slot-6/" },
-    { slot: 6, link: "https://lambnote.github.io/cx-slot-7/" },
-    { slot: 7, link: "https://lambnote.github.io/cx-slot-8/" },
-    { slot: 8, link: "https://lambnote.github.io/cx-slot-9/" },
-];
+const listEl=document.getElementById('roleList');
+const afi=document.getElementById('avatarFileInput');
+let curSlot=null;
 
-const DEFAULT_NAME = '等待链接…';
-const STORAGE_PREFIX = 'cx_nav_';
+function render(){
+    listEl.innerHTML='';
+    ROLES.forEach(r=>{
+        const s=r.slot,cn=gV(s,'name'),cd=gV(s,'desc'),ca=gV(s,'avatar');
+        const has=!!cn,dn=cn||DEFAULT_NAME;
+        let dt,dc;
+        if(cd){dt=cd;dc=''}
+        else if(has){dt=rD();dc=''}
+        else{dt=ORNAMENT;dc=' ornament'}
 
-// ---- localStorage 工具 ----
-function getVal(slot, key) { return localStorage.getItem(STORAGE_PREFIX + key + '_' + slot); }
-function setVal(slot, key, val) { localStorage.setItem(STORAGE_PREFIX + key + '_' + slot, val); }
-function delVal(slot, key) { localStorage.removeItem(STORAGE_PREFIX + key + '_' + slot); }
+        const c=document.createElement('a');
+        c.className='role-card'+(has?'':' empty');
+        c.href=r.link;c.target='_blank';c.rel='noopener';c.dataset.slot=s;
 
-// ---- 随机文案 ----
-function randomDesc() {
-    return RANDOM_DESCS[Math.floor(Math.random() * RANDOM_DESCS.length)];
-}
+        const av=ca?`<img src="${ca}" alt="${dn}">`:(has?dn.charAt(0):'✧');
 
-// ---- 渲染角色列表 ----
-const listEl = document.getElementById('roleList');
-const avatarFileInput = document.getElementById('avatarFileInput');
-let currentEditSlot = null;
-
-function renderList() {
-    listEl.innerHTML = '';
-    ROLES.forEach((role, i) => {
-        const slot = role.slot;
-        const customName = getVal(slot, 'name');
-        const customDesc = getVal(slot, 'desc');
-        const customAvatar = getVal(slot, 'avatar');
-        const displayName = customName || DEFAULT_NAME;
-        const displayDesc = customDesc || randomDesc();
-        const hasName = !!customName;
-
-        const card = document.createElement('a');
-        card.className = 'role-card';
-        card.href = role.link;
-        card.target = '_blank';
-        card.rel = 'noopener';
-        card.dataset.slot = slot;
-
-        const avatarContent = customAvatar
-            ? `<img src="${customAvatar}" alt="${displayName}">`
-            : (hasName ? displayName.charAt(0) : '?');
-
-        card.innerHTML = `
-            <div class="avatar" data-action="avatar">
-                ${avatarContent}
-                <div class="avatar-upload-hint">✎</div>
-            </div>
-            <div class="role-info">
-                <div class="role-name" data-action="name">${displayName}</div>
-                <div class="role-desc" data-action="desc">${displayDesc}</div>
-            </div>
-            <div class="status-dot"></div>
-        `;
-
-        listEl.appendChild(card);
+        c.innerHTML=`<div class="avatar">${av}</div><div class="role-info"><div class="role-name">${dn}</div><div class="role-desc${dc}">${dt}</div></div><div class="edit-btn" data-slot="${s}">✎</div><div class="status-dot"></div>`;
+        listEl.appendChild(c);
     });
-
-    // 绑定事件
-    bindCardEvents();
-}
-
-// ---- 事件绑定 ----
-function bindCardEvents() {
-    // 头像点击 → 上传图片（阻止跳转）
-    listEl.querySelectorAll('[data-action="avatar"]').forEach(el => {
-        el.addEventListener('click', e => {
-            e.preventDefault();
-            e.stopPropagation();
-            const slot = parseInt(el.closest('.role-card').dataset.slot);
-            currentEditSlot = slot;
-            avatarFileInput.click();
-        });
-    });
-
-    // 角色名点击 → 编辑弹窗（阻止跳转）
-    listEl.querySelectorAll('[data-action="name"]').forEach(el => {
-        el.addEventListener('click', e => {
-            e.preventDefault();
-            e.stopPropagation();
-            const slot = parseInt(el.closest('.role-card').dataset.slot);
-            showEditDialog(slot, 'name', '编辑角色名', getVal(slot, 'name') || '', '输入角色名…');
-        });
-    });
-
-    // 签名点击 → 编辑弹窗（阻止跳转）
-    listEl.querySelectorAll('[data-action="desc"]').forEach(el => {
-        el.addEventListener('click', e => {
-            e.preventDefault();
-            e.stopPropagation();
-            const slot = parseInt(el.closest('.role-card').dataset.slot);
-            showEditDialog(slot, 'desc', '编辑个性签名', getVal(slot, 'desc') || '', '留空则随机显示…');
-        });
+    listEl.querySelectorAll('.edit-btn').forEach(b=>{
+        b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();showMenu(parseInt(b.dataset.slot))});
     });
 }
 
-// ---- 头像上传处理 ----
-avatarFileInput.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file || currentEditSlot === null) return;
+function showMenu(s){
+    const o=document.createElement('div');o.className='cx-overlay';
+    const n=gV(s,'name')||DEFAULT_NAME;
+    o.innerHTML=`<div class="cx-dialog"><div class="cx-dialog-title">✦ ${n} ✦</div><div style="display:flex;flex-direction:column;gap:8px"><button class="cx-menu-item" id="mA"><span class="item-icon">✦</span><span>更换头像</span></button><button class="cx-menu-item" id="mN"><span class="item-icon">✧</span><span>编辑角色名</span></button><button class="cx-menu-item" id="mD"><span class="item-icon">✦</span><span>编辑个性签名</span></button><div class="cx-menu-gap"></div><button class="cx-menu-item danger" id="mR"><span class="item-icon">✧</span><span>恢复默认</span></button><button class="cx-menu-item cancel" id="mC">取消</button></div></div>`;
+    document.body.appendChild(o);
+    o.addEventListener('click',e=>{if(e.target===o)o.remove()});
+    document.getElementById('mC').addEventListener('click',()=>o.remove());
+    document.getElementById('mA').addEventListener('click',()=>{o.remove();curSlot=s;afi.click()});
+    document.getElementById('mN').addEventListener('click',()=>{o.remove();showInput(s,'name','编辑角色名',gV(s,'name')||'','输入角色名…')});
+    document.getElementById('mD').addEventListener('click',()=>{o.remove();showInput(s,'desc','编辑个性签名',gV(s,'desc')||'','留空则随机显示…')});
+    document.getElementById('mR').addEventListener('click',()=>{dV(s,'name');dV(s,'desc');dV(s,'avatar');o.remove();render()});
+}
 
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-        // 压缩图片
-        const img = new Image();
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const size = 200;
-            canvas.width = size;
-            canvas.height = size;
-            const ctx = canvas.getContext('2d');
+function showInput(s,k,t,cv,ph){
+    const o=document.createElement('div');o.className='cx-overlay';
+    o.innerHTML=`<div class="cx-dialog"><div class="cx-dialog-title">${t}</div><input type="text" class="cx-input" id="cxI" value="${cv.replace(/"/g,'&quot;')}" placeholder="${ph}" maxlength="20"><div class="cx-btn-row"><button class="cx-btn cx-btn-cancel" id="cxC">取消</button><button class="cx-btn cx-btn-save" id="cxS">保存</button></div></div>`;
+    document.body.appendChild(o);
+    const inp=document.getElementById('cxI');setTimeout(()=>inp.focus(),100);
+    function cl(){o.remove()}
+    o.addEventListener('click',e=>{if(e.target===o)cl()});
+    document.getElementById('cxC').addEventListener('click',cl);
+    document.getElementById('cxS').addEventListener('click',()=>{const v=inp.value.trim();if(v)sV(s,k,v);else dV(s,k);cl();render()});
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('cxS').click()});
+}
 
-            // 居中裁切为正方形
-            const min = Math.min(img.width, img.height);
-            const sx = (img.width - min) / 2;
-            const sy = (img.height - min) / 2;
-            ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size);
-
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-            setVal(currentEditSlot, 'avatar', dataUrl);
-            currentEditSlot = null;
-            renderList();
-        };
-        img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-    avatarFileInput.value = '';
+afi.addEventListener('change',e=>{
+    const f=e.target.files[0];if(!f||curSlot===null)return;
+    const r=new FileReader();
+    r.onload=ev=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas'),sz=200;c.width=sz;c.height=sz;const ctx=c.getContext('2d'),m=Math.min(img.width,img.height),sx=(img.width-m)/2,sy=(img.height-m)/2;ctx.drawImage(img,sx,sy,m,m,0,0,sz,sz);sV(curSlot,'avatar',c.toDataURL('image/jpeg',.8));curSlot=null;render()};img.src=ev.target.result};
+    r.readAsDataURL(f);afi.value='';
 });
 
-// ---- 编辑弹窗 ----
-function showEditDialog(slot, key, title, currentValue, placeholder) {
-    const overlay = document.createElement('div');
-    overlay.className = 'edit-overlay';
+render();
 
-    overlay.innerHTML = `
-        <div class="edit-dialog">
-            <h3>${title}</h3>
-            <input type="text" id="editInput" value="${currentValue.replace(/"/g, '&quot;')}" placeholder="${placeholder}" maxlength="20">
-            <div class="edit-btns">
-                <button class="btn-cancel" id="editCancel">取消</button>
-                <button class="btn-save" id="editSave">保存</button>
-            </div>
-            <button class="btn-reset" id="editReset">恢复默认</button>
-        </div>
-    `;
+const starsEl=document.getElementById('stars');let sh='';
+for(let i=0;i<80;i++){const x=(Math.random()*100).toFixed(1),y=(Math.random()*100).toFixed(1),sz=Math.random()>.7?2.5:1.5,dl=(Math.random()*5).toFixed(2),dr=(2+Math.random()*4).toFixed(1);sh+=`<div class="star" style="left:${x}%;top:${y}%;width:${sz}px;height:${sz}px;--delay:${dl}s;--dur:${dr}s"></div>`}
+starsEl.innerHTML=sh;
 
-    document.body.appendChild(overlay);
-
-    const input = document.getElementById('editInput');
-    const btnCancel = document.getElementById('editCancel');
-    const btnSave = document.getElementById('editSave');
-    const btnReset = document.getElementById('editReset');
-
-    setTimeout(() => input.focus(), 100);
-
-    function close() {
-        overlay.remove();
-    }
-
-    overlay.addEventListener('click', e => {
-        if (e.target === overlay) close();
-    });
-
-    btnCancel.addEventListener('click', close);
-
-    btnSave.addEventListener('click', () => {
-        const val = input.value.trim();
-        if (val) {
-            setVal(slot, key, val);
-        } else {
-            delVal(slot, key);
-        }
-        close();
-        renderList();
-    });
-
-    btnReset.addEventListener('click', () => {
-        delVal(slot, key);
-        if (key === 'name') {
-            // 重置名字的时候也重置头像
-            delVal(slot, 'avatar');
-        }
-        close();
-        renderList();
-    });
-
-    input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') btnSave.click();
-    });
-}
-
-// ---- 初始渲染 ----
-renderList();
-
-// ---- 星空粒子 ----
-const starsEl = document.getElementById('stars');
-let starsHTML = '';
-for (let i = 0; i < 80; i++) {
-    const x = (Math.random() * 100).toFixed(1);
-    const y = (Math.random() * 100).toFixed(1);
-    const size = Math.random() > 0.7 ? 2.5 : 1.5;
-    const delay = (Math.random() * 5).toFixed(2);
-    const dur = (2 + Math.random() * 4).toFixed(1);
-    starsHTML += `<div class="star" style="left:${x}%;top:${y}%;width:${size}px;height:${size}px;--delay:${delay}s;--dur:${dur}s"></div>`;
-}
-starsEl.innerHTML = starsHTML;
-
-// ---- PWA 注册 ----
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-    });
-}
+if('serviceWorker' in navigator)window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{})});
 </script>
-
 </body>
 </html>
